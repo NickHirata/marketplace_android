@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">projeto_android</string>
+    <string name="chat">Chat</string>
+    <string name="avaliacao">Avaliação</string>
 </resources>

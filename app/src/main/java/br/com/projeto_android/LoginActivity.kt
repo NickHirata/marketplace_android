@@ -1,5 +1,6 @@
 package br.com.projeto_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,12 @@ class LoginActivity : AppCompatActivity() {
         // Configurando o clique do botão de login
         loginButton.setOnClickListener {
             validateAndLogin()
+
+            val intent = Intent(this, MenuClienteActivity::class.java)
+            startActivity(intent)
+
+            // Finaliza a MainActivity para que o usuário não possa voltar para els
+            finish()
         }
     }
 

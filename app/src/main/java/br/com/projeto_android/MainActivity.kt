@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
 
-        // Finaliza a MainActivity para que o usuário não possa voltar para ela
+        // Finaliza a MainActivity para que o usuário não possa voltar para els
         finish()
     }
 }
