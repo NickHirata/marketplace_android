@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuClienteActivity">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- RecyclerView que preenche a tela acima do botão -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPedidos"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <!-- Botão fixo na parte inferior -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSolicitarOrcamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Solicitar Orçamento"
-        android:layout_gravity="bottom"
-        app:cornerRadius="8dp"
-        app:icon="@drawable/ic_orcamento" />
+        android:text="Solicitar Orçamento" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPedidos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

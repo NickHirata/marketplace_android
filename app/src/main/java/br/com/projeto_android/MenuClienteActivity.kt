@@ -13,14 +13,13 @@ import com.google.android.material.button.MaterialButton
 
 class MenuClienteActivity : AppCompatActivity() {
 
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnSolicitarOrcamento: MaterialButton
     private val pedidos = listOf(
-        Pedido("Pendente"),
-        Pedido("Aceito"),
-        Pedido("Recusado"),
-        Pedido("Concluído")
+        Pedido("Pendente", "Software de MarketPlace"),
+        Pedido("Aceito", "CRM"),
+        Pedido("Recusado", "Trelo"),
+        Pedido("Concluído", "Android")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class MenuClienteActivity : AppCompatActivity() {
     }
 }
 
-data class Pedido(val status: String)
+data class Pedido(val status: String, val nome: String)
 
 class PedidosAdapter(private val pedidos: List<Pedido>) :
     RecyclerView.Adapter<PedidosAdapter.PedidoViewHolder>() {
@@ -53,12 +52,15 @@ class PedidosAdapter(private val pedidos: List<Pedido>) :
     override fun onBindViewHolder(holder: PedidoViewHolder, position: Int) {
         val pedido = pedidos[position]
         holder.statusTextView.text = pedido.status
+        // Se quiser adicionar mais informações, como o nome, você pode fazer aqui
+         holder.nomeTextView.text = pedido.nome
     }
 
     override fun getItemCount(): Int = pedidos.size
 
     inner class PedidoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val statusTextView: TextView = itemView.findViewById(R.id.textViewStatus)
+        val nomeTextView: TextView = itemView.findViewById(R.id.textViewNome)
         val chatButton: ImageButton = itemView.findViewById(R.id.buttonChat)
         val avaliacaoButton: ImageButton = itemView.findViewById(R.id.buttonAvaliacao)
     }

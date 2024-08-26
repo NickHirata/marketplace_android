@@ -7,23 +7,48 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textViewStatus"
+        android:id="@+id/textViewNome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="16sp" />
+        android:layout_weight="3"
+        android:text="Nome do Pedido"
+        android:textSize="16sp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:breakStrategy="high_quality"
+        android:padding="4dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="5dp"
+        android:layout_height="28dp"
+        android:layout_weight="2"
+        android:text="Status do Pedido"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:layout_marginEnd="8dp" />
 
     <ImageButton
         android:id="@+id/buttonChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="31dp"
+        android:layout_height="32dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/chat"
+        android:padding="2dp"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_chat"
-        android:contentDescription="@string/chat" />
+        android:layout_marginEnd="8dp" />
 
     <ImageButton
         android:id="@+id/buttonAvaliacao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="38dp"
+        android:layout_height="31dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/avaliacao"
+        android:padding="2dp"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_avaliacao"
-        android:contentDescription="@string/avaliacao" />
+        android:layout_marginEnd="8dp" />
+
 </LinearLayout>
