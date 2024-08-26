@@ -2,13 +2,17 @@ package br.com.projeto_android
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 
 class MenuClienteActivity : AppCompatActivity() {
+
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var btnSolicitarOrcamento: MaterialButton
@@ -42,7 +46,7 @@ class PedidosAdapter(private val pedidos: List<Pedido>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidoViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_pedido, parent, false)
+            .inflate(R.layout.activity_item_pedido, parent, false)
         return PedidoViewHolder(view)
     }
 

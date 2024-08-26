@@ -64,7 +64,8 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
         // Redirecionar para a próxima Activity ou tela
-        // startActivity(Intent(this, NextActivity::class.java))
-        // finish()
+        val intent = Intent(this, MenuClienteActivity::class.java)
+        startActivity(intent)
+         finish()
     }
 }
