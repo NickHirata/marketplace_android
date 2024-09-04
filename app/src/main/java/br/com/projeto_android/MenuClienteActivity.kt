@@ -11,9 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.appbar.MaterialToolbar
 
 class MenuClienteActivity : AppCompatActivity() {
 
@@ -94,8 +94,8 @@ class PedidosAdapter(private val pedidos: List<Pedido>) :
         // Configurar o botão de chat para redirecionar para a ChatActivity
         holder.chatButton.setOnClickListener {
             val context = holder.itemView.context
-            val intent = Intent(context, ChatActivity::class.java)
-            intent.putExtra("NOME_PEDIDO", pedido.nome)  // Passa o nome do pedido para a ChatActivity
+            val intent = Intent(context, CommentsActivity::class.java)
+            intent.putExtra("NOME_PEDIDO", pedido.nome)
             context.startActivity(intent)
         }
     }

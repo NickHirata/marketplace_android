@@ -2,7 +2,6 @@ package br.com.projeto_android
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -14,7 +13,7 @@ class OrcamentoActivity : AppCompatActivity() {
     private lateinit var editTextNomeProjeto: TextInputEditText
     private lateinit var editTextDescricao: TextInputEditText
     private lateinit var btnSolicitarOrcamento: MaterialButton
-    private lateinit var bottomNavigationView: BottomNavigationView // Adicionado
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
