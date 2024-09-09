@@ -24,7 +24,12 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MenuClienteActivity" />
         <activity android:name=".OrcamentoActivity" />
-        <activity android:name=".CommentsActivity" />
+        <activity
+            android:name=".CommentsActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+
 
     </application>
 
