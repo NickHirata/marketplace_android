@@ -11,9 +11,9 @@
     <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground"
+        android:layout_width="290dp"
+        android:layout_height="108dp"
+        android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/emailEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

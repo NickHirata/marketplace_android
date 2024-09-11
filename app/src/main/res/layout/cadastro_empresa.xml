@@ -4,12 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".RegistroEmpresaActivity">
 
-    <!-- Toolbar -->
+    <!-- Toolbar com botão de voltar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Company Name Input -->
+    <!-- Título da tela -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="456dp"
+        android:layout_height="67dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:paddingBottom="8dp"
+        android:text="Cadastro de empresa"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/companyNameInputLayout"
@@ -17,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:hint="Nome Fantasia"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,6 +56,7 @@
         android:id="@+id/emailInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:hint="E-mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +74,7 @@
         android:id="@+id/cnpjInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:hint="CNPJ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +92,7 @@
         android:id="@+id/addressInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:hint="Endereço"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +110,7 @@
         android:id="@+id/phoneInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:hint="Telefone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
