@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.button.MaterialButton
+import android.widget.TextView
 
 class LoginActivity : AppCompatActivity() {
 
@@ -15,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordInputLayout: TextInputLayout
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: MaterialButton
+    private lateinit var registerLink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +28,24 @@ class LoginActivity : AppCompatActivity() {
         passwordInputLayout = findViewById(R.id.passwordInputLayout)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
+        registerLink = findViewById(R.id.registerLink)
 
         // Configurando o clique do botão de login
         loginButton.setOnClickListener {
             validateAndLogin()
-
-            val intent = Intent(this, MenuClienteActivity::class.java)
-            startActivity(intent)
-
-            // Finaliza a MainActivity para que o usuário não possa voltar para els
-            finish()
         }
+
+        // Configurando o clique do link de cadastro
+        registerLink.setOnClickListener {
+            val intent = Intent(this, RegistroEmpresaActivity::class.java)
+            startActivity(intent)
+        }
+
+        /*// Configurando o clique do link de cadastro
+        registerLink.setOnClickListener {
+            val intent = Intent(this, RegisterCompanyActivity::class.java)
+            startActivity(intent)
+        }*/
     }
 
     private fun validateAndLogin() {
@@ -66,6 +75,6 @@ class LoginActivity : AppCompatActivity() {
         // Redirecionar para a próxima Activity ou tela
         val intent = Intent(this, MenuClienteActivity::class.java)
         startActivity(intent)
-         finish()
+        finish()
     }
 }
