@@ -24,6 +24,11 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MenuClienteActivity" />
         <activity android:name=".OrcamentoActivity" />
+        <activity android:name=".RegistroEmpresaActivity" />
+        <activity android:name=".RegistroClienteActivity" />
+        <activity android:name=".RegistroFuncionarioActivity" />
+
+
 
     </application>
 
