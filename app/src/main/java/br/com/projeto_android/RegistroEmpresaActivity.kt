@@ -51,7 +51,7 @@ class RegistroEmpresaActivity : AppCompatActivity() {
         val address = addressEditText.text.toString().trim()
         val phone = phoneEditText.text.toString().trim()
 
-        if (companyName.isEmpty()) {
+       /* if (companyName.isEmpty()) {
             companyNameInputLayout.error = "Nome Fantasia é obrigatório"
             return
         } else {
@@ -84,7 +84,7 @@ class RegistroEmpresaActivity : AppCompatActivity() {
             return
         } else {
             phoneInputLayout.error = null
-        }
+        }*/
 
         // Aqui você pode adicionar a lógica para cadastro.
         // Por exemplo, fazer uma chamada de rede para enviar os dados.

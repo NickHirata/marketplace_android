@@ -10,6 +10,19 @@
 
     <!-- Toolbar -->
 
+    <!-- Label "Cadastre seu Cliente" -->
+    <TextView
+        android:id="@+id/registerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cadastre seu Cliente"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="40dp"/>
+
     <!-- Client Name Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/clientNameInputLayout"
