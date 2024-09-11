@@ -33,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topAppBar" />
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/companyNameInputLayout"
         android:layout_width="0dp"
@@ -128,7 +129,7 @@
         android:id="@+id/registerButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Cadastrar"
+        android:text="Cadastrar sua Empresa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

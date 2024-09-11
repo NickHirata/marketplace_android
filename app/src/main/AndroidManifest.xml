@@ -24,6 +24,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MenuClienteActivity" />
         <activity android:name=".OrcamentoActivity" />
+
         <activity
             android:name=".CommentsActivity"
             android:windowSoftInputMode="adjustPan">
@@ -33,10 +34,9 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
 
-        <activity
-            android:name=".RegistroEmpresaActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+        <activity android:name=".RegistroEmpresaActivity" />
+        <activity android:name=".RegistroClienteActivity" />
+        <activity android:name=".RegistroFuncionarioActivity" />
     </application>
 
 </manifest>
