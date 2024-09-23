@@ -61,6 +61,8 @@ class MenuClienteActivity : AppCompatActivity() {
                 }
                 R.id.menu_profile -> {
                     // Lógica para abrir o perfil do usuário
+                    val intent = Intent(this, PerfilActivity::class.java)
+                    startActivity(intent)
                     Toast.makeText(this, "Abrindo perfil...", Toast.LENGTH_SHORT).show()
                     true
                 }

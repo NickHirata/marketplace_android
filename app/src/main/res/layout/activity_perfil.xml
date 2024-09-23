@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#009976"
+        android:title="Perfil"
+        android:titleTextColor="@android:color/white"
+        android:layout_marginBottom="24dp" /> <!-- Espaçamento abaixo da Toolbar -->
+
+    <!-- area para o conteúdo da tela -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="56dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Nome do Usuário"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" /> <!-- Espaçamento aumentado abaixo do nome -->
+
+        <!-- Email do usuário -->
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="email@usuario.com"
+            android:textSize="16sp"
+            android:layout_marginBottom="32dp" /> <!-- Espaçamento aumentado abaixo do email -->
+
+        <!-- Botão de Editar Perfil -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_profile_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar Perfil"
+            android:backgroundTint="#009976"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="24dp" /> <!-- Espaçamento aumentado abaixo do botão -->
+
+        <!-- Botão de Configurações -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/open_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alterar Senha"
+            android:backgroundTint="#009976"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="24dp" /> <!-- Espaçamento aumentado abaixo do botão -->
+
+        <!-- Botão para listar clientes -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/list_clients_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Listar Clientes"
+            android:backgroundTint="#009976"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="24dp" /> <!-- Espaçamento aumentado abaixo do botão -->
+
+        <!-- Botão para listar usuários -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/list_users_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#009976"
+            android:text="Listar Usuários"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="160dp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"/> <!-- Mesma cor da barra superior -->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

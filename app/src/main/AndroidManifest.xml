@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Projeto_android"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -27,6 +28,11 @@
         <activity android:name=".RegistroEmpresaActivity" />
         <activity android:name=".RegistroClienteActivity" />
         <activity android:name=".RegistroFuncionarioActivity" />
+        <activity android:name=".PerfilActivity" />
+        <activity android:name=".ListaClientesActivity"/>
+        <activity android:name=".ListaUsuariosActivity"/>
+        <activity android:name=".EditarPerfilActivity"/>
+        <activity android:name=".AlterarSenhaActivity" />
 
 
 

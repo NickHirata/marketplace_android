@@ -10,10 +10,10 @@
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#009976"
         android:title="Menu Cliente"
         android:titleTextColor="@android:color/white"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_marginBottom="24dp" />
 
     <!-- Área para o conteúdo da tela -->
     <LinearLayout
@@ -28,6 +28,8 @@
             android:id="@+id/btnSolicitarOrcamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#009976"
+            android:textColor="#FFFFFF"
             android:text="Salvar Orçamento" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -44,8 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black" />
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

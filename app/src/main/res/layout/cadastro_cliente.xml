@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cadastre seu Cliente"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +84,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="#009976"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/clientPhoneInputLayout"
         app:layout_constraintVertical_bias="0.412" />
 
