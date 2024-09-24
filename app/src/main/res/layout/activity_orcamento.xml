@@ -8,19 +8,21 @@
     tools:context=".OrcamentoActivity">
 
     <!-- Toolbar no topo -->
+
+    <!-- ScrollView para o conteúdo -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#009976"
         android:title="Orçamento"
         android:titleTextColor="@android:color/white"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <!-- ScrollView para o conteúdo -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -35,6 +37,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
+
+            <!-- Título da página -->
+            <TextView
+                android:id="@+id/employee_list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solicitar Orçamento"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
 
             <!-- Campo Nome do Projeto -->
             <com.google.android.material.textfield.TextInputLayout
@@ -69,9 +82,9 @@
             <!-- Botão Solicitar -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSolicitarOrcamento"
-                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#009976"
                 android:layout_marginTop="32dp"
                 android:text="Solicitar" />
         </LinearLayout>

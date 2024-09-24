@@ -24,7 +24,7 @@ class OrcamentoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orcamento)
 
-
+        /*
         // Referência ao Spinner
         val statusSpinner = findViewById<Spinner>(R.id.statusSpinner)
         val statusTextView = findViewById<TextView>(R.id.statusTextView)
@@ -63,6 +63,7 @@ class OrcamentoActivity : AppCompatActivity() {
             }
         }
 
+
         // Lógica para o botão Solicitar
         btnSolicitarOrcamento.setOnClickListener {
             val nomeProjeto = editTextNomeProjeto.text.toString()
@@ -93,7 +94,7 @@ class OrcamentoActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Caso nenhum item seja selecionado
             }
-        }
+        }*/
     }
 }
 

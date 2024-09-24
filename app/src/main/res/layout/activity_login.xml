@@ -11,9 +11,10 @@
     <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground"
+        android:layout_width="118dp"
+        android:layout_height="102dp"
+        android:src="@drawable/logo"
+        android:layout_marginTop="64dp"
         app:layout_constraintBottom_toTopOf="@+id/emailEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +27,7 @@
         android:id="@+id/emailInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
         android:hint="E-mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +45,7 @@
         android:id="@+id/passwordInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:hint="Senha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,26 +59,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Login Button -->
+
+    <!-- Register Link -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#009976"
         android:text="Login"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.261" />
 
-    <!-- Register Link -->
     <TextView
         android:id="@+id/registerLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:text="Não tem uma conta? Cadastre-se aqui"
-        android:textColor="?attr/colorPrimary"
+        android:text="Não tem uma conta? Cadastre-se"
+        android:textColor="#009688"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

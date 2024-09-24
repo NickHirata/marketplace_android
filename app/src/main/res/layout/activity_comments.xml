@@ -13,12 +13,13 @@
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Comentários do Projeto Tal"
+
+        android:text="Comentários do Projeto XYZ"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:background="?attr/colorPrimary"
+        android:background="#009976"
         android:padding="16dp"
         android:paddingBottom="8dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,6 +65,7 @@
             android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#009976"
             android:text="Send"
             android:layout_marginStart="8dp" />
     </LinearLayout>

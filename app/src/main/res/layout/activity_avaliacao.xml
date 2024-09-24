@@ -11,7 +11,7 @@
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#009976"
         android:title="Orçamento"
         android:titleTextColor="@android:color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:text="AVALIAÇÃO"
-        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,6 +127,8 @@
             android:id="@+id/cancelButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/design_default_color_background"
+            android:textColor="#009976"
             android:layout_weight="1"
             android:text="Cancelar" />
 
@@ -135,6 +136,7 @@
             android:id="@+id/submitButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:backgroundTint="#009976"
             android:layout_weight="1"
             android:text="Enviar Avaliação"  />
     </LinearLayout>

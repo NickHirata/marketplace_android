@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lista de Clientes"
-        android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"
@@ -23,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="#BB86FC"
+        android:divider="#009976"
         android:dividerHeight="1dp" />
 
     <Button
@@ -31,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cadastrar Cliente"
-        android:backgroundTint="#BB86FC"
-        android:textColor="#FFFFFF"
+        android:backgroundTint="#009976"
         android:layout_marginTop="16dp" />
 
 </LinearLayout>

@@ -39,10 +39,10 @@ class RegistroEmpresaActivity : AppCompatActivity() {
         phoneEditText = findViewById(R.id.phoneEditText)
         registerButton = findViewById(R.id.registerButton)
 
-        val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
+        /*val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
         topAppBar.setNavigationOnClickListener {
             finish()
-        }
+        }*/
         // Configurando o clique do botão de cadastro
         registerButton.setOnClickListener {
             validateAndRegister()

@@ -35,17 +35,18 @@ class LoginActivity : AppCompatActivity() {
             validateAndLogin()
         }
 
-        // Configurando o clique do link de cadastro
+        /*// Configurando o clique do link de cadastro
         registerLink.setOnClickListener {
             val intent = Intent(this, RegistroEmpresaActivity::class.java)
             startActivity(intent)
+        }*/
+
+        // Configurando o clique do link de cadastro
+        registerLink.setOnClickListener {
+            val intent = Intent(this, RegistroClienteActivity::class.java)
+            startActivity(intent)
         }
 
-        /*// Configurando o clique do link de cadastro
-        registerLink.setOnClickListener {
-            val intent = Intent(this, RegisterCompanyActivity::class.java)
-            startActivity(intent)
-        }*/
     }
 
     private fun validateAndLogin() {
