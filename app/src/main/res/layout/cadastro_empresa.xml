@@ -58,12 +58,12 @@
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- CPF/CNPJ Input -->
+    <!-- CNPJ Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cnpjInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="CPF/CNPJ"
+        android:hint="CNPJ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
@@ -118,8 +118,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="#009976"
-        android:textColor="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/phoneInputLayout"
         app:layout_constraintVertical_bias="0.412" />
 </androidx.constraintlayout.widget.ConstraintLayout>

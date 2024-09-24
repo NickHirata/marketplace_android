@@ -67,8 +67,9 @@ class MenuClienteActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_logout -> {
-                    // Lógica para logout
                     Toast.makeText(this, "Saindo...", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false
@@ -93,10 +94,17 @@ class PedidosAdapter(private val pedidos: List<Pedido>) :
         holder.statusTextView.text = pedido.status
         holder.nomeTextView.text = pedido.nome
 
-        // Configurar o botão de chat para redirecionar para a ChatActivity
+        //redireciona para comentarios
         holder.chatButton.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, CommentsActivity::class.java)
+            intent.putExtra("NOME_PEDIDO", pedido.nome)
+            context.startActivity(intent)
+        }
+
+        holder.avaliacaoButton.setOnClickListener{
+            val context = holder.itemView.context
+            val intent = Intent(context, AvaliacaoActivity::class.java)
             intent.putExtra("NOME_PEDIDO", pedido.nome)
             context.startActivity(intent)
         }
