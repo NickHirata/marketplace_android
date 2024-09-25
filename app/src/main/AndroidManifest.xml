@@ -28,7 +28,7 @@
         <activity android:name=".RegistroClienteActivity" />
         <activity android:name=".RegistroFuncionarioActivity" />
         <activity android:name=".ListaClientesActivity" />
-        <activity android:name=".ListaFuncionariosActivity" />
+        <activity android:name=".ListaUsuariosActivity" />
         <activity android:name=".PerfilActivity" />
         <activity android:name=".EditarPerfilActivity" />
         <activity android:name=".AvaliacaoActivity" />

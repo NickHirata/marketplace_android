@@ -43,7 +43,7 @@ class PerfilActivity : AppCompatActivity() {
 
         btnListarUsuarios.setOnClickListener {
             Toast.makeText(this, "Listando usuários...", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, ListaFuncionariosActivity::class.java)
+            val intent = Intent(this, ListaUsuariosActivity::class.java)
             startActivity(intent)
         }
 

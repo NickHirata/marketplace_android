@@ -9,7 +9,7 @@ import br.com.projeto_android.R.id.recyclerViewComments
 import br.com.projeto_android.R.id.topAppBar
 import com.google.android.material.appbar.MaterialToolbar
 
-class ListaFuncionariosActivity : AppCompatActivity() {
+class ListaUsuariosActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: MaterialToolbar
