@@ -15,6 +15,8 @@
         android:titleTextColor="@android:color/white"
         android:layout_marginBottom="24dp" />
 
+
+
     <!-- Área para o conteúdo da tela -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,13 +26,24 @@
         android:layout_marginBottom="56dp"
         android:padding="16dp">
 
+        <!-- Espaçamento aumentado abaixo do nome -->
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:text="Empresa XYZ"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSolicitarOrcamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#009976"
             android:textColor="#FFFFFF"
-            android:text="Salvar Orçamento" />
+            android:text="Solicitar Novo Orçamento" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewPedidos"

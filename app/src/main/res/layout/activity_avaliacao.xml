@@ -127,10 +127,10 @@
             android:id="@+id/cancelButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/design_default_color_background"
-            android:textColor="#009976"
             android:layout_weight="1"
-            android:text="Cancelar" />
+            android:backgroundTint="#FDF6FE"
+            android:text="Cancelar"
+            android:textColor="#009976" />
 
         <Button
             android:id="@+id/submitButton"

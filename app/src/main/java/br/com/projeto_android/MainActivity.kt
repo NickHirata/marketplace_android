@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Redireciona para LoginActivity
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, MenuClienteActivity::class.java)
         startActivity(intent)
 
         // Finaliza a MainActivity para que o usuário não possa voltar para els
