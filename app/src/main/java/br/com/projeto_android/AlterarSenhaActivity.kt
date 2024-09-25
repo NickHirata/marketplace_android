@@ -3,8 +3,8 @@ package br.com.projeto_android
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 
 class AlterarSenhaActivity : AppCompatActivity() {
 
@@ -29,7 +29,7 @@ class AlterarSenhaActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()  // Permite que o botão de voltar funcione
+        finish() // Fecha a Activity atual e volta para a anterior
         return true
     }
 }

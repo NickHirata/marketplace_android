@@ -42,6 +42,8 @@ class CommentsActivity : AppCompatActivity() {
                 }
                 R.id.menu_profile -> {
                     Toast.makeText(this, "Abrindo perfil...", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PerfilActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.menu_logout -> {

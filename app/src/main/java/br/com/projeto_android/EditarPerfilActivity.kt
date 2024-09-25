@@ -1,13 +1,10 @@
 package br.com.projeto_android
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import br.com.projeto_android.R.id.buttonSend
-import br.com.projeto_android.R.id.emailEditText
 import com.google.android.material.appbar.MaterialToolbar
 
 class EditarPerfilActivity : AppCompatActivity() {
@@ -17,7 +14,6 @@ class EditarPerfilActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var saveButton: Button
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar_perfil)
@@ -28,9 +24,9 @@ class EditarPerfilActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // Mostrar o botão de voltar
 
         // Configurar EditTexts e Botão
-        nameEditText = findViewById(R.id.passwordEditText)
-        emailEditText = findViewById(R.id.emailEditText)
-        saveButton = findViewById(buttonSend)
+        nameEditText = findViewById(R.id.edit_name)
+        emailEditText = findViewById(R.id.edit_email)
+        saveButton = findViewById(R.id.save_button) // Referência corrigida
 
         // Configurar ação do botão Salvar
         saveButton.setOnClickListener {
@@ -46,5 +42,12 @@ class EditarPerfilActivity : AppCompatActivity() {
                 Toast.makeText(this, "Preencha todos os campos.", Toast.LENGTH_SHORT).show()
             }
         }
+
+
     }
+    override fun onSupportNavigateUp(): Boolean {
+        finish() // Fecha a Activity atual e volta para a anterior
+        return true
+    }
+
 }

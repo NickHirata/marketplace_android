@@ -3,7 +3,6 @@ package br.com.projeto_android
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -38,6 +37,7 @@ class RegistroEmpresaActivity : AppCompatActivity() {
         phoneInputLayout = findViewById(R.id.phoneInputLayout)
         phoneEditText = findViewById(R.id.phoneEditText)
         registerButton = findViewById(R.id.registerButton)
+
 
         /*val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
         topAppBar.setNavigationOnClickListener {

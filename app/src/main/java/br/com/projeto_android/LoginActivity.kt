@@ -2,12 +2,12 @@ package br.com.projeto_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.button.MaterialButton
-import android.widget.TextView
 
 class LoginActivity : AppCompatActivity() {
 
@@ -35,15 +35,10 @@ class LoginActivity : AppCompatActivity() {
             validateAndLogin()
         }
 
-        /*// Configurando o clique do link de cadastro
-        registerLink.setOnClickListener {
-            val intent = Intent(this, RegistroEmpresaActivity::class.java)
-            startActivity(intent)
-        }*/
 
         // Configurando o clique do link de cadastro
         registerLink.setOnClickListener {
-            val intent = Intent(this, RegistroClienteActivity::class.java)
+            val intent = Intent(this, RegistroEmpresaActivity::class.java)
             startActivity(intent)
         }
 

@@ -13,6 +13,7 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var btnEditarPerfil: MaterialButton
     private lateinit var btnListarClientes: MaterialButton
     private lateinit var btnListarUsuarios: MaterialButton
+    private lateinit var btnAlterarSenha: MaterialButton
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var toolbar: MaterialToolbar
 
@@ -28,16 +29,23 @@ class PerfilActivity : AppCompatActivity() {
         btnEditarPerfil = findViewById(R.id.edit_profile_button)
         btnListarClientes = findViewById(R.id.list_clients_button)
         btnListarUsuarios = findViewById(R.id.list_users_button)
+        btnAlterarSenha = findViewById(R.id.open_settings_button)
 
         // Ações dos botões
         btnEditarPerfil.setOnClickListener {
             Toast.makeText(this, "Editando perfil...", Toast.LENGTH_SHORT).show()
-            // Lógica para abrir a tela de edição de perfil
+            val intent = Intent(this, EditarPerfilActivity::class.java)
+            startActivity(intent)
         }
 
         btnListarClientes.setOnClickListener {
             Toast.makeText(this, "Listando clientes...", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, ListaClientesActivity::class.java)
+            startActivity(intent)
+        }
+        btnAlterarSenha.setOnClickListener {
+            Toast.makeText(this, "Alterar senha...", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, AlterarSenhaActivity::class.java)
             startActivity(intent)
         }
 
@@ -59,17 +67,14 @@ class PerfilActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_profile -> {
-                    // Já está no perfil, não precisa de ação
-
                     Toast.makeText(this, "Você já está no perfil.", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, PerfilActivity::class.java)
-                    startActivity(intent)
                     true
                 }
                 R.id.menu_logout -> {
                     // Lógica para logout
                     Toast.makeText(this, "Saindo...", Toast.LENGTH_SHORT).show()
-                    // Implementar o logout aqui
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false

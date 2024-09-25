@@ -34,48 +34,45 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-    <!-- Campo Senha Atual -->
-    <EditText
-        android:id="@+id/current_password_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Senha Atual"
-        android:inputType="textPassword"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        android:padding="16dp"
-        />
+        <!-- Campo Senha Atual -->
+        <EditText
+            android:id="@+id/current_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Senha Atual"
+            android:inputType="textPassword"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp" />
 
-    <!-- Campo Nova Senha -->
-    <EditText
-        android:id="@+id/new_password_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nova Senha"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp"
-        android:padding="16dp"
-        />
+        <!-- Campo Nova Senha -->
+        <EditText
+            android:id="@+id/new_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nova Senha"
+            android:inputType="textPassword"
+            android:layout_marginBottom="16dp"
+            android:padding="16dp" />
 
-    <!-- Campo Confirmar Nova Senha -->
-    <EditText
-        android:id="@+id/confirm_new_password_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar Nova Senha"
-        android:inputType="textPassword"
-        android:layout_marginBottom="24dp"
-        android:padding="16dp"
-         />
+        <!-- Campo Confirmar Nova Senha -->
+        <EditText
+            android:id="@+id/confirm_new_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirmar Nova Senha"
+            android:inputType="textPassword"
+            android:layout_marginBottom="24dp"
+            android:padding="16dp" />
 
-    <!-- Botão Salvar -->
-    <Button
-        android:id="@+id/save_password_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Salvar"
-        android:backgroundTint="#009976"
-        android:textColor="#FFFFFF" />
+        <!-- Botão Salvar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_password_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:backgroundTint="#009976"
+            android:textColor="#FFFFFF" />
 
-</LinearLayout>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

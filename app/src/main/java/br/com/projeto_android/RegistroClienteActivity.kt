@@ -20,6 +20,7 @@ class RegistroClienteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cadastro_cliente)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Inicializando os componentes
         clientNameInputLayout = findViewById(R.id.clientNameInputLayout)
@@ -34,7 +35,10 @@ class RegistroClienteActivity : AppCompatActivity() {
         registerClientButton.setOnClickListener {
             validateAndRegisterClient()
         }
+
     }
+
+
 
     private fun validateAndRegisterClient() {
         val clientName = clientNameEditText.text.toString().trim()
@@ -49,5 +53,10 @@ class RegistroClienteActivity : AppCompatActivity() {
 
         // Redirecionar paraa próxima Activity ou tela
         // finish() // Retorna à tela anterior ou pode redirecionar conforme a necessidade
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish() // Fecha a Activity atual e volta para a anterior
+        return true
     }
 }

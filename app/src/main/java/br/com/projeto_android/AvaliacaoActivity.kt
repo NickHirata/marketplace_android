@@ -31,6 +31,8 @@ class AvaliacaoActivity : AppCompatActivity() {
                 R.id.menu_profile -> {
                     // Lógica para abrir o perfil do usuário
                     Toast.makeText(this, "Abrindo perfil...", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PerfilActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.menu_logout -> {
