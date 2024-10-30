@@ -7,9 +7,12 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
-
+    companion object {
+        val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,5 +30,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish() // Finaliza a MainActivity
         }, 3000) // 3 segundos de splash
+
     }
+
 }

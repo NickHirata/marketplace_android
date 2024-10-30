@@ -1,17 +1,19 @@
 package br.com.projeto_android
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.firestore.FirebaseFirestore
+import models.Usuario
 
 class ListaUsuariosActivity : AppCompatActivity() {
 
@@ -19,14 +21,12 @@ class ListaUsuariosActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var registerEmployeeButton: MaterialButton
 
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listar_funcionarios)
 
         // Configurar a Toolbar
-        toolbar = findViewById(R.id.topAppBar) // Certifique-se de que a ID corresponde
+        toolbar = findViewById(R.id.topAppBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         registerEmployeeButton = findViewById(R.id.registerEmployeeButton)
@@ -36,28 +36,43 @@ class ListaUsuariosActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val idEmpresa = getLoggedCompanyId()
 
-        // Dados fictícios de funcionários
-        val funcionarios = listOf(
-            Funcionario("Carlos Oliveira", "carlos.oliveira@email.com", "11 99999-1111"),
-            Funcionario("Fernanda Lima", "fernanda.lima@email.com", "11 99999-2222"),
-            Funcionario("Lucas Pereira", "lucas.pereira@email.com", "11 99999-3333")
-        )
-
-        // Configurar o RecyclerView
-        recyclerView = findViewById(R.id.recyclerViewFuncionarios) // Verifique se a ID existe no XML
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = FuncionarioAdapter(funcionarios)
+        fetchEmployees(idEmpresa)
     }
+
+    private fun fetchEmployees(idEmpresa: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("usuarios")
+            .whereEqualTo("id_empresa", idEmpresa)
+            .get()
+            .addOnSuccessListener { documents ->
+                val funcionarios = documents.map { document ->
+                    document.toObject(Usuario::class.java)
+                }
+
+                recyclerView = findViewById(R.id.recyclerViewFuncionarios)
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerView.adapter = FuncionarioAdapter(funcionarios)
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Erro ao buscar funcionários: ${exception.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+
+    private fun getLoggedCompanyId(): String {
+        return "1"
+    }
+
     override fun onSupportNavigateUp(): Boolean {
-        finish() // Fecha a Activity atual e volta para a anterior
+        finish()
         return true
     }
+
 }
 
-data class Funcionario(val nome: String, val email: String, val telefone: String)
-
-class FuncionarioAdapter(private val funcionarios: List<Funcionario>) :
+class FuncionarioAdapter(private val funcionarios: List<Usuario>) :
     RecyclerView.Adapter<FuncionarioAdapter.FuncionarioViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FuncionarioViewHolder {

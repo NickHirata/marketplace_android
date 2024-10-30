@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import models.Usuario
+import service.FirestoreCRUD
 
 class RegistroFuncionarioActivity : AppCompatActivity() {
 
@@ -51,13 +53,58 @@ class RegistroFuncionarioActivity : AppCompatActivity() {
         val password = employeePasswordEditText.text.toString().trim()
         val rePassword = employeeRePasswordEditText.text.toString().trim()
 
-        // Aqui você pode adicionar a lógica para validação dos campos.
-        // Por exemplo, verificar se os campos estão vazios ou se a senha e a confirmação de senha coincidem.
+        // Validação dos campos
+        if (employeeName.isEmpty()) {
+            employeeNameEditText.error = "Por favor, insira o nome"
+            employeeNameEditText.requestFocus()
+            return
+        }
+        if (email.isEmpty()) {
+            employeeEmailEditText.error = "Por favor, insira o email"
+            employeeEmailEditText.requestFocus()
+            return
+        }
+        if (phone.isEmpty()) {
+            employeePhoneEditText.error = "Por favor, insira o telefone"
+            employeePhoneEditText.requestFocus()
+            return
+        }
+        if (password.isEmpty()) {
+            employeePasswordEditText.error = "Por favor, insira a senha"
+            employeePasswordEditText.requestFocus()
+            return
+        }
+        if (password != rePassword) {
+            employeeRePasswordEditText.error = "As senhas não coincidem"
+            employeeRePasswordEditText.requestFocus()
+            return
+        }
 
-        // Exemplo de mensagem de sucesso
-        Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show()
+        val novoUsuario = Usuario(
+            nome = employeeName,
+            email = email,
+            telefone = phone,
+        )
 
-        // Redirecionar para a próxima Activity ou tela
-        // finish() // Retorna à tela anterior ou pode redirecionar conforme a necessidade
+        val usuarioCRUD = FirestoreCRUD("usuarios", Usuario::class.java) { getLoggedCompanyId() }
+
+        usuarioCRUD.add(novoUsuario,
+            onSuccess = { id ->
+                Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show()
+                finish()
+            },
+            onFailure = { e ->
+                Toast.makeText(this, "Erro ao cadastrar: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+
     }
+    private fun getLoggedCompanyId(): String {
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getString("id_empresa", "") ?: ""
+    }
+
+
+
 }
