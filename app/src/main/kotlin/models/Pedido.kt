@@ -1,7 +1,7 @@
 package models
 
 data class Pedido(
-    val id: String = "",
+    var id: String = "",
     val idEmpresa: String = "",
     val nomeProjeto: String = "",
     val descricao: String = "",

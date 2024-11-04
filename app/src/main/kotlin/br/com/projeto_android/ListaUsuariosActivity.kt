@@ -29,22 +29,25 @@ class ListaUsuariosActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.topAppBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        registerEmployeeButton = findViewById(R.id.registerEmployeeButton)
 
+        registerEmployeeButton = findViewById(R.id.registerEmployeeButton)
         registerEmployeeButton.setOnClickListener {
             val intent = Intent(this, RegistroFuncionarioActivity::class.java)
             startActivity(intent)
         }
 
         val idEmpresa = getLoggedCompanyId()
-
-        fetchEmployees(idEmpresa)
+        if (idEmpresa.isNotEmpty()) {
+            fetchEmployees(idEmpresa)
+        } else {
+            Toast.makeText(this, "ID da empresa não encontrado", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun fetchEmployees(idEmpresa: String) {
         val db = FirebaseFirestore.getInstance()
         db.collection("usuarios")
-            .whereEqualTo("id_empresa", idEmpresa)
+            .whereEqualTo("empresa", idEmpresa)  // Ajustado para buscar pelo campo `empresa`
             .get()
             .addOnSuccessListener { documents ->
                 val funcionarios = documents.map { document ->
@@ -60,16 +63,15 @@ class ListaUsuariosActivity : AppCompatActivity() {
             }
     }
 
-
     private fun getLoggedCompanyId(): String {
-        return "1"
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getString("id_empresa", "") ?: ""
     }
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
     }
-
 }
 
 class FuncionarioAdapter(private val funcionarios: List<Usuario>) :

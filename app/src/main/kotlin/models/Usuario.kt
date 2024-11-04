@@ -1,7 +1,7 @@
 package models
 
 data class Usuario(
-    val id: String = "",
+    var id: String = "",
     val nome: String = "",
     val email: String = "",
     val telefone: String = "",

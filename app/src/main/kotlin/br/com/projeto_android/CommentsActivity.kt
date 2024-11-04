@@ -13,6 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
+import models.Chat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 class CommentsActivity : AppCompatActivity() {
 
     private lateinit var commentsAdapter: CommentsAdapter
@@ -20,50 +26,49 @@ class CommentsActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var editTextComment: EditText
     private lateinit var buttonSend: Button
-    private var commentsList: MutableList<Comment> = mutableListOf()
+    private var commentsList: MutableList<Chat> = mutableListOf()
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var idPedido: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
 
-        val projectName = "Projeto XYZ"
+        // Obter o nome do projeto e o ID do pedido
+        val projectName = intent.getStringExtra("NOME_PEDIDO") ?: "Projeto"
+        idPedido = intent.getStringExtra("ID_PEDIDO") ?: ""  // Recupera o ID do pedido
+
         val titleTextView: TextView = findViewById(R.id.titleTextView)
         titleTextView.text = "Comentários do $projectName"
 
-        // Configurando a BottomNavigationView
+        // Configurar a BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottomNavigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
-                    Toast.makeText(this, "Abrindo home...", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MenuClienteActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, MenuClienteActivity::class.java))
                     true
                 }
+
                 R.id.menu_profile -> {
-                    Toast.makeText(this, "Abrindo perfil...", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, PerfilActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, PerfilActivity::class.java))
                     true
                 }
+
                 R.id.menu_logout -> {
-                    Toast.makeText(this, "Saindo...", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, LoginActivity::class.java))
                     true
                 }
+
                 else -> false
             }
         }
 
-        // Inicializa o RecyclerView
+        // Inicializar o RecyclerView
         recyclerViewComments = findViewById(R.id.recyclerViewComments)
         recyclerViewComments.layoutManager = LinearLayoutManager(this)
 
-        commentsList.add(Comment("Adamson", "Esse projeto vai iniciar na segunda dia 04/09/2024", "A"))
-        commentsList.add(Comment("Liam Rubicorn", "Estamos com dúvidas sobre esse projeto precisa marcar uma reunião com o cliente", "L"))
-
-        // Inicializa o commentsAdapter corretamente
+        // Inicializar o commentsAdapter
         commentsAdapter = CommentsAdapter(commentsList)
         recyclerViewComments.adapter = commentsAdapter
 
@@ -71,37 +76,109 @@ class CommentsActivity : AppCompatActivity() {
         editTextComment = findViewById(R.id.editTextComment)
         buttonSend = findViewById(R.id.buttonSend)
 
+        // Carregar os comentários (chats) do pedido
+        loadComments()
+
         // Evento de clique do botão "Send"
         buttonSend.setOnClickListener {
             val newCommentText = editTextComment.text.toString().trim()
-
             if (newCommentText.isNotEmpty()) {
-                // Adiciona o novo comentário à lista
-                val newComment = Comment("Você", newCommentText, "Y")
-                commentsList.add(newComment)
-
-                // Notifica o adapter que um novo item foi inserido
-                commentsAdapter.notifyItemInserted(commentsList.size - 1)
-
-                // Rola para o final da lista para mostrar o novo comentário
-                recyclerViewComments.scrollToPosition(commentsList.size - 1)
-
-                // Limpa o campo de texto
-                editTextComment.text.clear()
+                sendComment(newCommentText)
             } else {
                 Toast.makeText(this, "O comentário não pode estar vazio", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
+
+    private fun loadComments() {
+        // Busca todos os chats que possuem o idPedido correspondente
+        db.collection("chat")
+            .whereEqualTo("idPedido", idPedido)
+            .get()
+            .addOnSuccessListener { documents ->
+                commentsList.clear()
+                for (document in documents) {
+                    val chat = document.toObject(Chat::class.java)
+                    commentsList.add(chat)
+                }
+                commentsAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(
+                    this,
+                    "Erro ao carregar comentários: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    private fun sendComment(mensagem: String) {
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val idUsuario = sharedPreferences.getString("id_usuario", "")
+        var nomeUsuario: String
+        val dataHoraEnvio = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(Date())
+
+        if (idUsuario.isNullOrEmpty()) {
+            // Se não houver id_usuario, use o nome da empresa
+            val idEmpresa = sharedPreferences.getString("id_empresa", "")
+            db.collection("empresa").document(idEmpresa ?: "")
+                .get()
+                .addOnSuccessListener { document ->
+                    nomeUsuario = document.getString("nomeFantasia") ?: "Nome da Empresa"
+
+                    // Após obter o nome da empresa, envie o comentário
+                    salvarChat(mensagem, nomeUsuario, dataHoraEnvio)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Erro ao obter nome da empresa", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            // Se houver id_usuario, use o nome do usuário
+            db.collection("usuarios").document(idUsuario)
+                .get()
+                .addOnSuccessListener { document ->
+                    nomeUsuario = document.getString("nome") ?: "Usuário Desconhecido"
+
+                    // Após obter o nome do usuário, envie o comentário
+                    salvarChat(mensagem, nomeUsuario, dataHoraEnvio)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Erro ao obter nome do usuário", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun salvarChat(mensagem: String, nomeUsuario: String, dataHoraEnvio: String) {
+        val chatMessage = Chat(
+            dataHoraEnvio = dataHoraEnvio,
+            nomeUsuario = nomeUsuario,
+            mensagem = mensagem,
+            idPedido = idPedido  // Associa o comentário ao ID do pedido
+        )
+
+        db.collection("chat")
+            .add(chatMessage)
+            .addOnSuccessListener { documentReference ->
+                val generatedId = documentReference.id
+
+                documentReference.update("id", generatedId)  // Atualiza o documento com o ID gerado
+                chatMessage.id = generatedId  // Define o ID no objeto local também
+                commentsList.add(chatMessage)
+                commentsAdapter.notifyItemInserted(commentsList.size - 1)
+                recyclerViewComments.scrollToPosition(commentsList.size - 1)
+                editTextComment.text.clear()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao enviar comentário: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 }
 
-data class Comment(val userName: String, val commentText: String, val avatarLetter: String)
-
-class CommentsAdapter(private val commentsList: List<Comment>) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
+class CommentsAdapter(private val commentsList: List<Chat>) :
+    RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textAvatar: TextView = view.findViewById(R.id.textAvatar)
         val textUserName: TextView = view.findViewById(R.id.textUserName)
         val textComment: TextView = view.findViewById(R.id.textComment)
     }
@@ -114,11 +191,8 @@ class CommentsAdapter(private val commentsList: List<Comment>) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comment = commentsList[position]
-
-        // Definindo os textos dinamicamente
-        holder.textAvatar.text = comment.avatarLetter
-        holder.textUserName.text = comment.userName
-        holder.textComment.text = comment.commentText
+        holder.textUserName.text = comment.nomeUsuario
+        holder.textComment.text = comment.mensagem
     }
 
     override fun getItemCount() = commentsList.size

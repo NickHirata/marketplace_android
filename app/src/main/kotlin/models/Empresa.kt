@@ -1,7 +1,7 @@
 package models
 
 data class Empresa(
-    val id: String = "",
+    var id: String = "",
     val nomeFantasia: String = "",
     val email: String = "",
     val cnpj: String = "",

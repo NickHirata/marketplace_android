@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.FirebaseFirestore
+import models.Empresa
 
 class RegistroEmpresaActivity : AppCompatActivity() {
 
@@ -19,11 +21,15 @@ class RegistroEmpresaActivity : AppCompatActivity() {
     private lateinit var addressEditText: TextInputEditText
     private lateinit var phoneInputLayout: TextInputLayout
     private lateinit var phoneEditText: TextInputEditText
+    private lateinit var senhaInputLayout: TextInputLayout
+    private lateinit var senhaEditText: TextInputEditText
+
     private lateinit var registerButton: MaterialButton
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.cadastro_empresa) // Define o layout da Activity
+        setContentView(R.layout.cadastro_empresa)
 
         // Inicializando os componentes
         companyNameInputLayout = findViewById(R.id.companyNameInputLayout)
@@ -35,15 +41,13 @@ class RegistroEmpresaActivity : AppCompatActivity() {
         addressInputLayout = findViewById(R.id.addressInputLayout)
         addressEditText = findViewById(R.id.addressEditText)
         phoneInputLayout = findViewById(R.id.phoneInputLayout)
+        senhaInputLayout = findViewById(R.id.passwordInputLayout)
+        senhaEditText = findViewById(R.id.passwordEditText)
         phoneEditText = findViewById(R.id.phoneEditText)
         registerButton = findViewById(R.id.registerButton)
 
+        db = FirebaseFirestore.getInstance()
 
-        /*val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
-        topAppBar.setNavigationOnClickListener {
-            finish()
-        }*/
-        // Configurando o clique do botão de cadastro
         registerButton.setOnClickListener {
             validateAndRegister()
         }
@@ -55,49 +59,52 @@ class RegistroEmpresaActivity : AppCompatActivity() {
         val cnpj = cnpjEditText.text.toString().trim()
         val address = addressEditText.text.toString().trim()
         val phone = phoneEditText.text.toString().trim()
+        val senha = senhaEditText.text.toString()
 
-       /* if (companyName.isEmpty()) {
-            companyNameInputLayout.error = "Nome Fantasia é obrigatório"
+
+        if (companyName.isEmpty() || email.isEmpty() || cnpj.isEmpty() || address.isEmpty() || phone.isEmpty()) {
+            Toast.makeText(this, "Todos os campos são obrigatórios", Toast.LENGTH_SHORT).show()
             return
-        } else {
-            companyNameInputLayout.error = null
         }
 
-        if (email.isEmpty()) {
-            emailInputLayout.error = "E-mail é obrigatório"
-            return
-        } else {
-            emailInputLayout.error = null
-        }
+        val empresa = Empresa(
+            nomeFantasia = companyName,
+            email = email,
+            cnpj = cnpj,
+            endereco = address,
+            telefone = phone
+        )
 
-        if (cnpj.isEmpty()) {
-            cnpjInputLayout.error = "CNPJ é obrigatório"
-            return
-        } else {
-            cnpjInputLayout.error = null
-        }
+        db.collection("empresa")
+            .add(empresa)
+            .addOnSuccessListener { documentReference ->
+                val empresaId = documentReference.id  // Obtém o ID gerado pelo Firebase
+                empresa.id = empresaId  // Atribui o ID ao campo id da empresa, se necessário
+                Toast.makeText(this, "Cadastro de empresa realizado com sucesso", Toast.LENGTH_SHORT).show()
 
-        if (address.isEmpty()) {
-            addressInputLayout.error = "Endereço é obrigatório"
-            return
-        } else {
-            addressInputLayout.error = null
-        }
+                addLoginEntry(empresaId, email, cnpj, senha)  // Passa o ID da empresa para o login
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao cadastrar empresa: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
 
-        if (phone.isEmpty()) {
-            phoneInputLayout.error = "Telefone é obrigatório"
-            return
-        } else {
-            phoneInputLayout.error = null
-        }*/
+    }
 
-        // Aqui você pode adicionar a lógica para cadastro.
-        // Por exemplo, fazer uma chamada de rede para enviar os dados.
+    private fun addLoginEntry(empresaId: String, email: String, cnpj: String, senha: String) {
+        val loginData = hashMapOf(
+            "cnpj_email" to (cnpj.ifEmpty { email }),
+            "senha" to senha,
+            "id_empresa" to empresaId
+        )
 
-        // Exemplo de mensagem de sucesso
-        Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show()
-
-        // Redirecionar para a próxima Activity ou tela
-        // finish() // Retorna à tela anterior ou pode redirecionar conforme a necessidade
+        db.collection("login")
+            .add(loginData)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Dados de login criados com sucesso", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao criar login: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

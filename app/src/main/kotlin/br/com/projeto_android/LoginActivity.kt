@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import models.Login
 
 class LoginActivity : AppCompatActivity() {
@@ -18,10 +20,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: MaterialButton
     private lateinit var registerLink: TextView
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login) // Define o layout da Activity
+        setContentView(R.layout.activity_login)
 
         // Inicializando os componentes
         emailInputLayout = findViewById(R.id.emailInputLayout)
@@ -31,18 +35,20 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButton)
         registerLink = findViewById(R.id.registerLink)
 
+        // Inicializando o Firebase
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
         // Configurando o clique do botão de login
         loginButton.setOnClickListener {
             validateAndLogin()
         }
-
 
         // Configurando o clique do link de cadastro
         registerLink.setOnClickListener {
             val intent = Intent(this, RegistroEmpresaActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun validateAndLogin() {
@@ -62,13 +68,12 @@ class LoginActivity : AppCompatActivity() {
         } else {
             passwordInputLayout.error = null
         }
-        authenticateUser(identifier, password)
 
+        authenticateUser(identifier, password)
     }
 
-
     private fun authenticateUser(identifier: String, password: String) {
-        MainActivity.db.collection("login")
+        db.collection("login")
             .whereEqualTo("cnpj_email", identifier)
             .get()
             .addOnSuccessListener { documents ->
@@ -82,17 +87,13 @@ class LoginActivity : AppCompatActivity() {
                 // Verifica se a senha corresponde
                 if (loginData.senha == password) {
                     if (loginData.id_empresa != null) {
-                        // É uma empresa
-                        saveCompanyId(loginData.id_empresa)
+                        saveCompanyId(loginData.id_empresa, loginData.id_usuario?: "")
                         Toast.makeText(this, "Login da empresa realizado com sucesso", Toast.LENGTH_SHORT).show()
-                        // Redireciona para a tela de empresa
                         val intent = Intent(this, MenuClienteActivity::class.java)
                         startActivity(intent)
                     } else if (loginData.id_usuario != null) {
-                        // É um funcionário
-                        saveCompanyId(loginData.id_empresa ?: "")
+                        saveCompanyId(loginData.id_empresa ?: "", loginData.id_usuario?: "")
                         Toast.makeText(this, "Login do funcionário realizado com sucesso", Toast.LENGTH_SHORT).show()
-                        // Redireciona para a tela de funcionário
                         val intent = Intent(this, MenuClienteActivity::class.java)
                         startActivity(intent)
                     }
@@ -105,12 +106,11 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-
-    private fun saveCompanyId(idEmpresa: String) {
+    private fun saveCompanyId(idEmpresa: String, idUsuario: String) {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("id_empresa", idEmpresa)
+        editor.putString("id_usuario", idUsuario)
         editor.apply()
     }
-
 }
