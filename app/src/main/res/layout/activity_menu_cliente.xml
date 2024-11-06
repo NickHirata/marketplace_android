@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#009976"
             android:textColor="#FFFFFF"
-            android:text="Solicitar Novo Orçamento" />
+            android:text="Gerar novo pedido" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewPedidos"

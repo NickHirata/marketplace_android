@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".PedidoDialogFragment">
+
+    <!-- Título Nome do Projeto -->
+    <TextView
+        android:id="@+id/textNomeProjeto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nome do Projeto"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Campo de entrada do Nome do Projeto -->
+    <EditText
+        android:id="@+id/editNomeProjeto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Digite o nome do projeto"
+        android:textSize="16sp"
+        android:backgroundTint="#009976"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textNomeProjeto"
+        android:layout_marginTop="8dp" />
+
+    <!-- Título Descrição -->
+    <TextView
+        android:id="@+id/textDescricao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Descrição"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editNomeProjeto"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Campo de entrada da Descrição -->
+    <EditText
+        android:id="@+id/editDescricao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Digite a descrição"
+        android:textSize="16sp"
+        android:backgroundTint="#009976"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textDescricao"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Título Status -->
+    <TextView
+        android:id="@+id/textStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editDescricao"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Spinner para selecionar o Status -->
+    <Spinner
+        android:id="@+id/spinnerStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textStatus"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Título Cliente -->
+    <TextView
+        android:id="@+id/textCliente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cliente"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerStatus"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Spinner para selecionar o Cliente -->
+    <Spinner
+        android:id="@+id/spinnerCliente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textCliente"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Botão Salvar Pedido -->
+    <Button
+        android:id="@+id/btnSalvarPedido"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:textColor="#ffffff"
+        android:backgroundTint="#009976"
+        android:textSize="18sp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerCliente"
+        android:layout_marginTop="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

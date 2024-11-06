@@ -3,6 +3,7 @@ package br.com.projeto_android
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -48,9 +49,36 @@ class RegistroEmpresaActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
 
-        registerButton.setOnClickListener {
-            validateAndRegister()
+        val backButton: AppCompatImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            onBackPressed()
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+        registerButton.setOnClickListener {
+            val cnpj = cnpjEditText.text.toString().trim()
+            verificarCNPJExistente(cnpj)
+        }
+    }
+    fun verificarCNPJExistente(cnpj: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        // Realiza uma consulta na coleção "empresa" para buscar o CNPJ
+        db.collection("empresa")
+            .whereEqualTo("cnpj", cnpj)  // Verifica se o campo 'cnpj' já contém esse valor
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) {
+                    validateAndRegister()
+                } else {
+                    // CNPJ já existe, exibe mensagem de erro
+                    Toast.makeText(this, "CNPJ já cadastrado!", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao verificar CNPJ: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun validateAndRegister() {
@@ -78,11 +106,12 @@ class RegistroEmpresaActivity : AppCompatActivity() {
         db.collection("empresa")
             .add(empresa)
             .addOnSuccessListener { documentReference ->
-                val empresaId = documentReference.id  // Obtém o ID gerado pelo Firebase
-                empresa.id = empresaId  // Atribui o ID ao campo id da empresa, se necessário
-                Toast.makeText(this, "Cadastro de empresa realizado com sucesso", Toast.LENGTH_SHORT).show()
+                val empresaId = documentReference.id
+                empresa.id = empresaId
 
-                addLoginEntry(empresaId, email, cnpj, senha)  // Passa o ID da empresa para o login
+                addLoginEntry(empresaId, email, cnpj, senha)
+
+                Toast.makeText(this, "Cadastro de empresa realizado com sucesso", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Erro ao cadastrar empresa: ${e.message}", Toast.LENGTH_SHORT).show()

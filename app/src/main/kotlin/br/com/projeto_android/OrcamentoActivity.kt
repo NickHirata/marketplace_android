@@ -77,7 +77,7 @@ class OrcamentoActivity : AppCompatActivity() {
             .addOnSuccessListener { documentReference ->
                 novoPedido.id = documentReference.id  // Atribui o ID gerado pelo Firebase ao campo id do objeto
                 Toast.makeText(this, "Orçamento solicitado para $nomeProjeto com ID: ${novoPedido.id}", Toast.LENGTH_SHORT).show()
-                finish() // Fecha a atividade e volta para a anterior
+                finish()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Erro ao solicitar orçamento: ${e.message}", Toast.LENGTH_SHORT).show()

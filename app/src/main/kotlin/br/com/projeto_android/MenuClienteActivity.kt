@@ -1,5 +1,6 @@
 package br.com.projeto_android
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,10 +41,11 @@ class MenuClienteActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewPedidos)
         btnSolicitarOrcamento = findViewById(R.id.btnSolicitarOrcamento)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = PedidosAdapter(pedidosList)
+        recyclerView.adapter = PedidosAdapter(pedidosList, this)  // Passa o contexto
+
 
         btnSolicitarOrcamento.setOnClickListener {
-            Toast.makeText(this, "Solicitando orçamento...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Gerando pedido...", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, OrcamentoActivity::class.java)
             startActivity(intent)
         }
@@ -80,6 +82,16 @@ class MenuClienteActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val idEmpresa = getLoggedCompanyId()
+        if (idEmpresa.isNotEmpty()) {
+            fetchPedidos(idEmpresa)
+        }
+    }
+
+
     private fun fetchEmpresaNome(idEmpresa: String) {
         db.collection("empresa")
             .document(idEmpresa)
@@ -108,14 +120,15 @@ class MenuClienteActivity : AppCompatActivity() {
             .whereEqualTo("idEmpresa", idEmpresa)
             .get()
             .addOnSuccessListener { documents ->
-                pedidosList.clear()
+                pedidosList.clear() // Limpa a lista de pedidos para atualizar com os novos dados
                 for (document in documents) {
+                    // Atribua o ID diretamente ao objeto Pedido
                     val pedido = document.toObject(Pedido::class.java).apply {
-                        var id = document.id
+                        id = document.id // Aqui o ID é atribuído corretamente ao objeto Pedido
                     }
-                    pedidosList.add(pedido)
+                    pedidosList.add(pedido) // Adiciona o pedido à lista
                 }
-                recyclerView.adapter?.notifyDataSetChanged()
+                recyclerView.adapter?.notifyDataSetChanged() // Notifica o RecyclerView sobre a mudança de dados
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(
@@ -126,12 +139,13 @@ class MenuClienteActivity : AppCompatActivity() {
             }
     }
 
+
     private fun getLoggedCompanyId(): String {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         return sharedPreferences.getString("id_empresa", "") ?: ""
     }
 
-    class PedidosAdapter(private val pedidos: List<Pedido>) :
+    class PedidosAdapter(private val pedidos: List<Pedido>, private val context: Context) :
         RecyclerView.Adapter<PedidosAdapter.PedidoViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidoViewHolder {
@@ -141,28 +155,31 @@ class MenuClienteActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: PedidoViewHolder, position: Int) {
-            val pedido = pedidos[position]
+            val pedido = pedidos[position] // O pedido já deve ter o ID atribuído aqui
             holder.statusTextView.text = pedido.status
             holder.nomeTextView.text = pedido.nomeProjeto
 
+            // Configura o clique do botão de chat
             holder.chatButton.setOnClickListener {
                 val context = holder.itemView.context
                 val intent = Intent(context, CommentsActivity::class.java)
                 intent.putExtra("NOME_PEDIDO", pedido.nomeProjeto)
-                intent.putExtra(
-                    "ID_PEDIDO", pedido.id
-                )
+                intent.putExtra("ID_PEDIDO", pedido.id)
                 context.startActivity(intent)
             }
 
-
+            // Configura o clique do botão de avaliação
             holder.avaliacaoButton.setOnClickListener {
                 val context = holder.itemView.context
                 val intent = Intent(context, AvaliacaoActivity::class.java)
-                intent.putExtra("NOME_PEDIDO", pedido.nomeProjeto)
+                intent.putExtra("nome_pedido", pedido.nomeProjeto)  // Nome do pedido
+                intent.putExtra("id_pedido", pedido.id)      // ID do pedido
                 context.startActivity(intent)
             }
         }
+
+
+
 
         override fun getItemCount(): Int = pedidos.size
 
@@ -173,4 +190,6 @@ class MenuClienteActivity : AppCompatActivity() {
             val avaliacaoButton: ImageButton = itemView.findViewById(R.id.buttonAvaliacao)
         }
     }
+
+
 }

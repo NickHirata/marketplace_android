@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RegistroEmpresaActivity">
 
-    <!-- Toolbar -->
+    <!-- Toolbar com ícone de voltar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,34 +14,48 @@
         android:background="#009976"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:titleTextColor="#FFFFFF"
-        android:padding="32dp"
+        android:padding="16dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:contentDescription="Voltar"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <!-- Label "Cadastre-se" -->
-
-    <!-- Company Name Input -->
-
     <TextView
         android:id="@+id/registerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="48dp"
         android:text="Cadastre sua Empresa"
-        android:textSize="25dp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="#333333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <!-- Nome da Empresa -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/companyNameInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Nome Fantasia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/registerLabel">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/companyNameEditText"
@@ -50,11 +64,14 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Email Input -->
+    <!-- E-mail -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="E-mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,12 +84,15 @@
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- CNPJ Input -->
+    <!-- CNPJ -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cnpjInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="CPF/CNPJ"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="CNPJ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
@@ -84,11 +104,14 @@
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Address Input -->
+    <!-- Endereço -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/addressInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Endereço"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,11 +124,14 @@
             android:inputType="textPostalAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Phone Input -->
+    <!-- Telefone -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Telefone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,12 +144,14 @@
             android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Password Input -->
+    <!-- Senha -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Senha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,18 +164,22 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- Register Button -->
+    <!-- Botão de Cadastro -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registerButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:backgroundTint="#009976"
         android:textColor="#FFFFFF"
         android:text="Cadastrar sua Empresa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneInputLayout"
-        app:layout_constraintVertical_bias="0.412" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
+        app:layout_constraintVertical_bias="0.4"
+        app:cornerRadius="8dp"
+        android:layout_marginBottom="40dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

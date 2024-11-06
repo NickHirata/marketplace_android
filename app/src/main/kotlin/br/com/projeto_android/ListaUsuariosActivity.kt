@@ -63,6 +63,14 @@ class ListaUsuariosActivity : AppCompatActivity() {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val idEmpresa = getLoggedCompanyId()
+        if (idEmpresa.isNotEmpty()) {
+            fetchEmployees(idEmpresa)
+        }
+    }
     private fun getLoggedCompanyId(): String {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         return sharedPreferences.getString("id_empresa", "") ?: ""

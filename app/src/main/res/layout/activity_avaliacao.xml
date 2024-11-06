@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="#009976"
-        android:title="Orçamento"
+        android:title="Avaliação"
         android:titleTextColor="@android:color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent"
@@ -90,8 +90,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ratingQuestionTextView" />
 
-
-
     <!-- Comentário -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/commentInputLayout"
@@ -138,7 +136,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#009976"
             android:layout_weight="1"
-            android:text="Enviar Avaliação"  />
+            android:text="Enviar Avaliação" />
     </LinearLayout>
 
     <!-- Bottom Navigation -->
@@ -153,5 +151,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,16 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.FirebaseFirestore
+import models.Cliente
 
 class RegistroClienteActivity : AppCompatActivity() {
 
-    private lateinit var clientNameInputLayout:TextInputLayout
+    private lateinit var clientNameInputLayout: TextInputLayout
     private lateinit var clientNameEditText: TextInputEditText
     private lateinit var clientEmailInputLayout: TextInputLayout
     private lateinit var clientEmailEditText: TextInputEditText
     private lateinit var clientPhoneInputLayout: TextInputLayout
     private lateinit var clientPhoneEditText: TextInputEditText
     private lateinit var registerClientButton: MaterialButton
+
+    private val db = FirebaseFirestore.getInstance() // Instanciando o Firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,24 +39,69 @@ class RegistroClienteActivity : AppCompatActivity() {
         registerClientButton.setOnClickListener {
             validateAndRegisterClient()
         }
-
     }
-
-
 
     private fun validateAndRegisterClient() {
         val clientName = clientNameEditText.text.toString().trim()
         val email = clientEmailEditText.text.toString().trim()
         val phone = clientPhoneEditText.text.toString().trim()
 
-        // Aqui você pode adicionar a lógica para validação dos campos.
-        // Por exemplo, verificar se os campos estão vazios.
+        // Validação dos campos
+        if (clientName.isEmpty()) {
+            clientNameInputLayout.error = "Nome é obrigatório"
+            return
+        } else {
+            clientNameInputLayout.error = null
+        }
 
-        // Exemplo de mensagem de sucesso
-        Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show()
+        if (email.isEmpty()) {
+            clientEmailInputLayout.error = "Email é obrigatório"
+            return
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            clientEmailInputLayout.error = "Email inválido"
+            return
+        } else {
+            clientEmailInputLayout.error = null
+        }
 
-        // Redirecionar paraa próxima Activity ou tela
-        // finish() // Retorna à tela anterior ou pode redirecionar conforme a necessidade
+        if (phone.isEmpty()) {
+            clientPhoneInputLayout.error = "Telefone é obrigatório"
+            return
+        } else {
+            clientPhoneInputLayout.error = null
+        }
+
+        // Recuperar o ID da empresa das SharedPreferences
+        val idEmpresa = getLoggedCompanyId()
+
+        // Criar o objeto Cliente para enviar ao Firestore
+        val cliente = Cliente(
+            nome = clientName,
+            email = email,
+            telefone = phone,
+            empresa = idEmpresa // Adicionando o idEmpresa ao cliente
+        )
+
+        // Salvar no Firestore
+        db.collection("clientes") // Coleção "clientes" no Firestore
+            .add(cliente) // Adiciona o cliente ao Firestore
+            .addOnSuccessListener {
+                // Exibe a mensagem de sucesso
+                Toast.makeText(this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show()
+
+                // Redireciona para a tela anterior ou realiza outro tipo de ação
+                finish()
+            }
+            .addOnFailureListener { e ->
+                // Exibe a mensagem de erro
+                Toast.makeText(this, "Erro ao cadastrar cliente: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // Função para obter o ID da empresa das SharedPreferences
+    private fun getLoggedCompanyId(): String {
+        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        return sharedPreferences.getString("id_empresa", "") ?: ""
     }
 
     override fun onSupportNavigateUp(): Boolean {
