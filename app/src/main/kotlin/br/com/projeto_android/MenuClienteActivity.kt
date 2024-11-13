@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
@@ -197,8 +198,26 @@ class MenuClienteActivity : AppCompatActivity() {
             // Preenchendo os campos com os dados atuais do pedido
             nomeProjetoEditText.setText(pedido.nomeProjeto)
             descricaoEditText.setText(pedido.descricao)
-            // Status e Cliente são Spinners, então vamos apenas mostrar a lógica básica
-            // Aqui você pode preencher os spinners com valores do Firebase, se necessário
+
+            // Preencher o Spinner de Status com opções
+            val statusOptions = arrayOf("Em andamento", "Concluído", "Cancelado")  // Exemplos de status
+            val statusAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, statusOptions)
+            statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            statusSpinner.adapter = statusAdapter
+
+            // Selecionar o status atual do pedido no Spinner
+            val statusPosition = statusOptions.indexOf(pedido.status) // Seleciona o item correspondente ao status do pedido
+            statusSpinner.setSelection(statusPosition)
+
+            // Preencher o Spinner de Cliente com opções
+            val clienteOptions = arrayOf("Cliente A", "Cliente B", "Cliente C")  // Exemplos de clientes
+            val clienteAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, clienteOptions)
+            clienteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            clienteSpinner.adapter = clienteAdapter
+
+            // Selecionar o cliente atual do pedido no Spinner
+            val clientePosition = clienteOptions.indexOf(pedido.cliente) // Seleciona o item correspondente ao cliente do pedido
+            clienteSpinner.setSelection(clientePosition)
 
             builder.setView(view)
 
@@ -235,6 +254,7 @@ class MenuClienteActivity : AppCompatActivity() {
             // Exibe o dialog
             builder.create().show()
         }
+
 
         override fun getItemCount(): Int = pedidos.size
 
