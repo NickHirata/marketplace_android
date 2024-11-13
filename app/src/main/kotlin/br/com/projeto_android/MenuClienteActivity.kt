@@ -2,7 +2,10 @@ package br.com.projeto_android
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +24,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import models.Pedido
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class MenuClienteActivity : AppCompatActivity() {
 
@@ -174,10 +180,52 @@ class MenuClienteActivity : AppCompatActivity() {
                 intent.putExtra("id_pedido", pedido.id)
                 context.startActivity(intent)
             }
-
+            holder.buttonSendPdfWhatsapp.setOnClickListener {
+                showEditDialog(pedido)
+            }
             // Botão para editar o pedido (Exibe um AlertDialog com o formulário)
             holder.editPedidoButton.setOnClickListener {
-                showEditDialog(pedido)
+                onDownloadPDF()
+            }
+        }
+
+        private fun onDownloadPDF() {
+            val dadosEmpresa = "Nome: XYZ Ltda\nEndereço: Rua A, 123\nTelefone: (11) 1234-5678"
+            val dadosPedido = "Pedido: Projeto X\nDescrição: Desenvolvimento de app\nStatus: Em andamento"
+            generatePDF(dadosEmpresa, dadosPedido)
+        }
+
+        private fun generatePDF(dadosEmpresa: String, dadosPedido: String) {
+            // Cria um documento PDF
+            val pdfDocument = PdfDocument()
+            val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // Tamanho A4 em pixels
+            val page = pdfDocument.startPage(pageInfo)
+            val canvas = page.canvas
+
+            val paint = Paint()
+            paint.textSize = 12f
+
+            // Desenha os dados no PDF
+            canvas.drawText("Dados da Empresa:", 10f, 30f, paint)
+            canvas.drawText(dadosEmpresa, 10f, 50f, paint)
+            canvas.drawText("Dados do Pedido:", 10f, 90f, paint)
+            canvas.drawText(dadosPedido, 10f, 110f, paint)
+
+            pdfDocument.finishPage(page)
+
+            val directoryPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString()
+            val file = File(directoryPath, "Pedido_Detalhado.pdf")
+
+            try {
+                pdfDocument.writeTo(FileOutputStream(file))
+                // Usando Toast.makeText corretamente
+                Toast.makeText(context, "PDF gerado com sucesso em: $directoryPath", Toast.LENGTH_LONG).show()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                // Usando Toast.makeText corretamente
+                Toast.makeText(context, "Erro ao gerar PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                pdfDocument.close()
             }
         }
 
@@ -239,6 +287,7 @@ class MenuClienteActivity : AppCompatActivity() {
                         )
                         .addOnSuccessListener {
                             Toast.makeText(context, "Pedido atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                            (context as? MenuClienteActivity)?.fetchPedidos(context.getLoggedCompanyId())
                         }
                         .addOnFailureListener { e ->
                             Toast.makeText(context, "Erro ao atualizar pedido: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -264,6 +313,7 @@ class MenuClienteActivity : AppCompatActivity() {
             val chatButton: ImageButton = itemView.findViewById(R.id.buttonChat)
             val avaliacaoButton: ImageButton = itemView.findViewById(R.id.buttonAvaliacao)
             val editPedidoButton: ImageButton = itemView.findViewById(R.id.buttonEditPedido)
+            val buttonSendPdfWhatsapp: ImageButton = itemView.findViewById(R.id.buttonSendPdfWhatsapp)
         }
     }
 }
