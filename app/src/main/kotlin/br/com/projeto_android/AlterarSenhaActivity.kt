@@ -53,6 +53,11 @@ class AlterarSenhaActivity : AppCompatActivity() {
             // Atualizar a senha no Firestore
             updatePassword(idUsuario, idEmpresa, currentPassword, newPassword)
         }
+
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     // Função para obter o ID do usuário das SharedPreferences

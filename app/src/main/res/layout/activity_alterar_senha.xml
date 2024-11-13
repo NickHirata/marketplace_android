@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#009976"
+        app:navigationIcon="@drawable/ic_arrow_back"
         android:title="Alterar Senha"
         android:titleTextColor="@android:color/white"
         android:layout_marginBottom="32dp" /> <!-- Espaçamento abaixo da Toolbar -->

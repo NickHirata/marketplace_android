@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,7 +46,6 @@ class MenuClienteActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = PedidosAdapter(pedidosList, this)  // Passa o contexto
 
-
         btnSolicitarOrcamento.setOnClickListener {
             Toast.makeText(this, "Gerando pedido...", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, OrcamentoActivity::class.java)
@@ -61,14 +63,12 @@ class MenuClienteActivity : AppCompatActivity() {
                     Toast.makeText(this, "Abrindo perfil...", Toast.LENGTH_SHORT).show()
                     true
                 }
-
                 R.id.menu_logout -> {
                     Toast.makeText(this, "Saindo...", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     true
                 }
-
                 else -> false
             }
         }
@@ -84,13 +84,11 @@ class MenuClienteActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         val idEmpresa = getLoggedCompanyId()
         if (idEmpresa.isNotEmpty()) {
             fetchPedidos(idEmpresa)
         }
     }
-
 
     private fun fetchEmpresaNome(idEmpresa: String) {
         db.collection("empresa")
@@ -139,7 +137,6 @@ class MenuClienteActivity : AppCompatActivity() {
             }
     }
 
-
     private fun getLoggedCompanyId(): String {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         return sharedPreferences.getString("id_empresa", "") ?: ""
@@ -159,7 +156,7 @@ class MenuClienteActivity : AppCompatActivity() {
             holder.statusTextView.text = pedido.status
             holder.nomeTextView.text = pedido.nomeProjeto
 
-            // Configura o clique do botão de chat
+            // Botão de chat
             holder.chatButton.setOnClickListener {
                 val context = holder.itemView.context
                 val intent = Intent(context, CommentsActivity::class.java)
@@ -168,18 +165,76 @@ class MenuClienteActivity : AppCompatActivity() {
                 context.startActivity(intent)
             }
 
-            // Configura o clique do botão de avaliação
+            // Botão de avaliação
             holder.avaliacaoButton.setOnClickListener {
                 val context = holder.itemView.context
                 val intent = Intent(context, AvaliacaoActivity::class.java)
-                intent.putExtra("nome_pedido", pedido.nomeProjeto)  // Nome do pedido
-                intent.putExtra("id_pedido", pedido.id)      // ID do pedido
+                intent.putExtra("nome_pedido", pedido.nomeProjeto)
+                intent.putExtra("id_pedido", pedido.id)
                 context.startActivity(intent)
+            }
+
+            // Botão para editar o pedido (Exibe um AlertDialog com o formulário)
+            holder.editPedidoButton.setOnClickListener {
+                showEditDialog(pedido)
             }
         }
 
+        private fun showEditDialog(pedido: Pedido) {
+            // Criação do AlertDialog para editar o pedido
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Editar Pedido")
 
+            // Criação do layout do dialog (um formulário simples)
+            val view = LayoutInflater.from(context).inflate(R.layout.dialog_pedido, null)
 
+            // Campos de entrada
+            val nomeProjetoEditText = view.findViewById<EditText>(R.id.editNomeProjeto)
+            val descricaoEditText = view.findViewById<EditText>(R.id.editDescricao)
+            val statusSpinner = view.findViewById<Spinner>(R.id.spinnerStatus)
+            val clienteSpinner = view.findViewById<Spinner>(R.id.spinnerCliente)
+
+            // Preenchendo os campos com os dados atuais do pedido
+            nomeProjetoEditText.setText(pedido.nomeProjeto)
+            descricaoEditText.setText(pedido.descricao)
+            // Status e Cliente são Spinners, então vamos apenas mostrar a lógica básica
+            // Aqui você pode preencher os spinners com valores do Firebase, se necessário
+
+            builder.setView(view)
+
+            // Botão "Salvar" para aplicar as alterações
+            builder.setPositiveButton("Salvar") { dialog, which ->
+                val novoNomeProjeto = nomeProjetoEditText.text.toString()
+                val novaDescricao = descricaoEditText.text.toString()
+                val novoStatus = statusSpinner.selectedItem.toString() // Pegue o valor selecionado no Spinner
+                val novoCliente = clienteSpinner.selectedItem.toString() // Pegue o valor selecionado no Spinner
+
+                if (novoNomeProjeto.isNotEmpty() && novaDescricao.isNotEmpty() && novoStatus.isNotEmpty()) {
+                    // Atualiza o pedido no Firebase
+                    db.collection("pedido").document(pedido.id)
+                        .update(
+                            "nomeProjeto", novoNomeProjeto,
+                            "descricao", novaDescricao,
+                            "status", novoStatus,
+                            "cliente", novoCliente // Pode ser necessário adaptar se você tiver estrutura diferente
+                        )
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Pedido atualizado com sucesso!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Erro ao atualizar pedido: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+
+            // Botão "Cancelar"
+            builder.setNegativeButton("Cancelar") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            // Exibe o dialog
+            builder.create().show()
+        }
 
         override fun getItemCount(): Int = pedidos.size
 
@@ -188,8 +243,7 @@ class MenuClienteActivity : AppCompatActivity() {
             val nomeTextView: TextView = itemView.findViewById(R.id.textViewNome)
             val chatButton: ImageButton = itemView.findViewById(R.id.buttonChat)
             val avaliacaoButton: ImageButton = itemView.findViewById(R.id.buttonAvaliacao)
+            val editPedidoButton: ImageButton = itemView.findViewById(R.id.buttonEditPedido)
         }
     }
-
-
 }
