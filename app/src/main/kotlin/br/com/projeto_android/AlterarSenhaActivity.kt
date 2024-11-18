@@ -26,6 +26,10 @@ class AlterarSenhaActivity : AppCompatActivity() {
         confirmNewPasswordEditText = findViewById(R.id.confirm_new_password_edit_text)
         savePasswordButton = findViewById(R.id.save_password_button)
 
+        // Configurar o botão de navegação (back button)
+        setSupportActionBar(findViewById(R.id.topAppBar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // Ação do botão
         savePasswordButton.setOnClickListener {
             val currentPassword = currentPasswordEditText.text.toString().trim()
@@ -53,12 +57,13 @@ class AlterarSenhaActivity : AppCompatActivity() {
             // Atualizar a senha no Firestore
             updatePassword(idUsuario, idEmpresa, currentPassword, newPassword)
         }
-
     }
+
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressed()
         return true
     }
+
 
     // Função para obter o ID do usuário das SharedPreferences
     private fun getLoggedUserId(): String? {

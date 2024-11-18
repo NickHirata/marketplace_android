@@ -34,6 +34,9 @@ class CommentsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
 
+        // Configurar o botão de navegação (back button)
+        setSupportActionBar(findViewById(R.id.topAppBar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // Obter o nome do projeto e o ID do pedido
         val projectName = intent.getStringExtra("NOME_PEDIDO") ?: "Projeto"
         idPedido = intent.getStringExtra("ID_PEDIDO") ?: ""  // Recupera o ID do pedido
@@ -64,6 +67,7 @@ class CommentsActivity : AppCompatActivity() {
             }
         }
 
+
         // Inicializar o RecyclerView
         recyclerViewComments = findViewById(R.id.recyclerViewComments)
         recyclerViewComments.layoutManager = LinearLayoutManager(this)
@@ -88,6 +92,13 @@ class CommentsActivity : AppCompatActivity() {
                 Toast.makeText(this, "O comentário não pode estar vazio", Toast.LENGTH_SHORT).show()
             }
         }
+
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun loadComments() {
