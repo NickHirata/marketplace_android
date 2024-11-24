@@ -20,7 +20,6 @@ class ListaClientesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: MaterialToolbar
     private lateinit var registerClientButton: MaterialButton
-    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,28 +30,39 @@ class ListaClientesActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Inicializar o botão de registro de cliente
+        // Configurar botão para registrar clientes
         registerClientButton = findViewById(R.id.registerClientButton)
-
-        // Inicializando o RecyclerView
-        recyclerView = findViewById(R.id.recyclerViewClientes)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Buscar o idEmpresa das SharedPreferences
-        val idEmpresa = getLoggedCompanyId()
-
-        if (idEmpresa.isNotEmpty()) {
-            // Buscar clientes filtrados por idEmpresa
-            fetchClientesByEmpresa(idEmpresa)
-        } else {
-            Toast.makeText(this, "ID da empresa não encontrado", Toast.LENGTH_SHORT).show()
-        }
-
-        // Configurar o clique do botão de cadastro de cliente
         registerClientButton.setOnClickListener {
             val intent = Intent(this, RegistroClienteActivity::class.java)
             startActivity(intent)
         }
+
+        // Obter o ID da empresa
+        val idEmpresa = getLoggedCompanyId()
+        if (idEmpresa.isNotEmpty()) {
+            fetchClientes(idEmpresa)
+        } else {
+            Toast.makeText(this, "ID da empresa não encontrado", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun fetchClientes(idEmpresa: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("clientes")
+            .whereEqualTo("empresa", idEmpresa)  // Buscar clientes pelo campo "empresa"
+            .get()
+            .addOnSuccessListener { documents ->
+                val clientes = documents.map { document ->
+                    document.toObject(Cliente::class.java)
+                }
+
+                recyclerView = findViewById(R.id.recyclerViewClientes)
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerView.adapter = ClienteAdapter(clientes)
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Erro ao buscar clientes: ${exception.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     override fun onResume() {
@@ -60,79 +70,17 @@ class ListaClientesActivity : AppCompatActivity() {
 
         val idEmpresa = getLoggedCompanyId()
         if (idEmpresa.isNotEmpty()) {
-            fetchClientesByEmpresa(idEmpresa)
+            fetchClientes(idEmpresa)
         }
     }
 
-    // Função para obter o ID da empresa das SharedPreferences
     private fun getLoggedCompanyId(): String {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val idEmpresa = sharedPreferences.getString("id_empresa", "")
-        println("ID da empresa recuperado: $idEmpresa")  // Log para depuração
-        return idEmpresa ?: ""
-    }
-
-    // Função para buscar clientes filtrados pelo idEmpresa no Firestore
-    private fun fetchClientesByEmpresa(idEmpresa: String) {
-        db.collection("clientes")
-            .whereEqualTo("idEmpresa", idEmpresa) // Filtra os clientes pela empresa
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    Toast.makeText(this, "Nenhum cliente encontrado para esta empresa", Toast.LENGTH_SHORT).show()
-                    println("Nenhum cliente encontrado")
-                } else {
-                    val clientes = mutableListOf<Cliente>()
-                    for (document in documents) {
-                        val cliente = document.toObject(Cliente::class.java)
-                        clientes.add(cliente)
-                        println("Cliente encontrado: ${cliente.nome}, ${cliente.empresa}")
-                    }
-
-                    // Atualiza o RecyclerView com os clientes filtrados
-                    recyclerView.adapter = ClienteAdapter(clientes)
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Erro ao buscar clientes: ${e.message}", Toast.LENGTH_SHORT).show()
-                e.printStackTrace()
-            }
+        return sharedPreferences.getString("id_empresa", "") ?: ""
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish() // Fecha a Activity atual e volta para a anterior
+        finish()
         return true
-    }
-}
-
-data class Cliente(
-    val nome: String = "",
-    val email: String = "",
-    val telefone: String = "",
-    val idEmpresa: String = "" // Adicionando o campo idEmpresa para filtro no Firestore
-)
-
-class ClienteAdapter(private val clientes: List<Cliente>) :
-    RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClienteViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_cliente, parent, false) // Certifique-se de que este layout existe
-        return ClienteViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ClienteViewHolder, position: Int) {
-        val cliente = clientes[position]
-        holder.nomeTextView.text = cliente.nome
-        holder.emailTextView.text = cliente.email
-        holder.telefoneTextView.text = cliente.telefone
-    }
-
-    override fun getItemCount(): Int = clientes.size
-
-    inner class ClienteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nomeTextView: TextView = itemView.findViewById(R.id.textViewNome)
-        val emailTextView: TextView = itemView.findViewById(R.id.textViewEmail)
-        val telefoneTextView: TextView = itemView.findViewById(R.id.textViewTelefone)
     }
 }

@@ -45,6 +45,7 @@ class PerfilActivity : AppCompatActivity() {
             Toast.makeText(this, "Editando perfil...", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, EditarPerfilActivity::class.java)
             startActivity(intent)
+
         }
 
         btnListarClientes.setOnClickListener {
