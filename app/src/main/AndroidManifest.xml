@@ -37,6 +37,8 @@
         <activity android:name=".AvaliacaoActivity" />
         <activity android:name=".AlterarSenhaActivity" />
         <activity android:name=".CommentsActivity" />
+        <activity android:name=".RedefinirSenhaActivity" />
+
 
 
 
