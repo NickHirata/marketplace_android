@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#009976"
-            android:text="Listar Usuários"
+            android:text="Listar Funcionários"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="160dp" />
 

@@ -3,6 +3,7 @@ package br.com.projeto_android
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -24,6 +25,15 @@ class RedefinirSenhaActivity : AppCompatActivity() {
         // Inicializar Firebase e componentes da UI
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+
+        val backButton: AppCompatImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         emailInputLayout = findViewById(R.id.emailInputLayout)
         emailEditText = findViewById(R.id.emailEditText)

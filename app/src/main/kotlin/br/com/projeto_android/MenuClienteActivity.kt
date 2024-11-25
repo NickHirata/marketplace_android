@@ -181,11 +181,11 @@ class MenuClienteActivity : AppCompatActivity() {
                 context.startActivity(intent)
             }
             holder.buttonSendPdfWhatsapp.setOnClickListener {
-                showEditDialog(pedido)
+                onDownloadPDF()
             }
             // Botão para editar o pedido (Exibe um AlertDialog com o formulário)
             holder.editPedidoButton.setOnClickListener {
-                onDownloadPDF()
+                showEditDialog(pedido)
             }
         }
 
