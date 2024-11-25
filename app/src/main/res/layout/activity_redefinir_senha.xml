@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".RedefinirSenhaActivity">
 
     <!-- Toolbar com ícone de voltar -->
@@ -38,10 +37,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Digite seu e-mail"
+        android:layout_marginTop="120dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditText"
