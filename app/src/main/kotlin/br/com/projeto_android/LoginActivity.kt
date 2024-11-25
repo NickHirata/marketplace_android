@@ -20,6 +20,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var loginButton: MaterialButton
     private lateinit var registerLink: TextView
+    private lateinit var forgotPasswordLink: TextView
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
         registerLink = findViewById(R.id.registerLink)
+        forgotPasswordLink = findViewById(R.id.forgotPasswordLink)
 
         // Inicializando o Firebase
         auth = FirebaseAuth.getInstance()
@@ -47,6 +49,12 @@ class LoginActivity : AppCompatActivity() {
         // Configurando o clique do link de cadastro
         registerLink.setOnClickListener {
             val intent = Intent(this, RegistroEmpresaActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Configurando o clique do link de esqueci a senha
+        forgotPasswordLink.setOnClickListener {
+            val intent = Intent(this, RedefinirSenhaActivity::class.java)
             startActivity(intent)
         }
     }
@@ -87,12 +95,12 @@ class LoginActivity : AppCompatActivity() {
                 // Verifica se a senha corresponde
                 if (loginData.senha == password) {
                     if (loginData.id_empresa != null) {
-                        saveCompanyId(loginData.id_empresa, loginData.id_usuario?: "")
+                        saveCompanyId(loginData.id_empresa, loginData.id_usuario ?: "")
                         Toast.makeText(this, "Login da empresa realizado com sucesso", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MenuClienteActivity::class.java)
                         startActivity(intent)
                     } else if (loginData.id_usuario != null) {
-                        saveCompanyId(loginData.id_empresa ?: "", loginData.id_usuario?: "")
+                        saveCompanyId(loginData.id_empresa ?: "", loginData.id_usuario ?: "")
                         Toast.makeText(this, "Login do funcionário realizado com sucesso", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MenuClienteActivity::class.java)
                         startActivity(intent)
