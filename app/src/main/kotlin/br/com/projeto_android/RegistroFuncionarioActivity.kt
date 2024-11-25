@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import models.Usuario
 
@@ -23,6 +24,7 @@ class RegistroFuncionarioActivity : AppCompatActivity() {
     private lateinit var employeeRePasswordEditText: TextInputEditText
     private lateinit var registerEmployeeButton: MaterialButton
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,29 +83,44 @@ class RegistroFuncionarioActivity : AppCompatActivity() {
             return
         }
 
-        // Recupera o ID da empresa
-        val companyId = getLoggedCompanyId()
+        // Criação do usuário no Firebase Authentication
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Usuário criado com sucesso no Firebase Authentication
+                    val userId = task.result?.user?.uid ?: ""
 
-        val novoUsuario = Usuario(
-            nome = employeeName,
-            email = email,
-            telefone = phone,
-            empresa = companyId
-        )
-// Adiciona o usuário à coleção "usuarios"
-        db.collection("usuarios")
-            .add(novoUsuario)
-            .addOnSuccessListener { documentReference ->
-                val userId = documentReference.id  // Captura o ID gerado pelo Firebase para o novo usuário
-                Toast.makeText(this, "Cadastro do funcionário realizado com sucesso", Toast.LENGTH_SHORT).show()
-                novoUsuario.id = userId
-                // Adiciona entrada na coleção "login" para autenticação
-                addLoginEntry(userId, email, password, companyId)  // Passa o userId para o login
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Erro ao cadastrar funcionário: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+                    // Recupera o ID da empresa
+                    val companyId = getLoggedCompanyId()
 
+                    val novoUsuario = Usuario(
+                        nome = employeeName,
+                        email = email,
+                        telefone = phone,
+                        empresa = companyId
+                    )
+
+                    // Adiciona o usuário à coleção "usuarios"
+                    db.collection("usuarios")
+                        .add(novoUsuario)
+                        .addOnSuccessListener { documentReference ->
+                            val userIdFirestore = documentReference.id  // Captura o ID gerado pelo Firebase para o novo usuário
+                            Toast.makeText(this, "Cadastro do funcionário realizado com sucesso", Toast.LENGTH_SHORT).show()
+
+                            // Atualiza o ID do usuário
+                            novoUsuario.id = userIdFirestore
+
+                            // Adiciona entrada na coleção "login" para autenticação
+                            addLoginEntry(userId, email, password, companyId)  // Passa o userId para o login
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Erro ao cadastrar funcionário no Firestore: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    // Se falhar na criação do usuário no Firebase Authentication
+                    Toast.makeText(this, "Erro ao criar usuário: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     private fun addLoginEntry(userId: String, email: String, password: String, companyId: String) {
